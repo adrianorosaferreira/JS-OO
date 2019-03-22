@@ -1,4 +1,5 @@
-Portugues#
+Portugues
+
 #Introdução
 
 Projeto para estudo e aprofundamento na linguagem de progração JavaScript. Este consiste em um sistema de casastro de negociações da bolsa de valores. 
@@ -8,7 +9,8 @@ Projeto para estudo e aprofundamento na linguagem de progração JavaScript. Est
 Projeto desenvolvido em JavaScript, ou ECMAScript 2015 (ES6). Utilizado o modelo MVC (Model-View-Controller), aplicando padrões de projeto, programação assincrona com promises, renderização de templates e com proxies.
 
 
-English#
+English
+
 #Introduction
 
 Study project by deep learning on JavaScript programming. This project consist on stock sxchange trading register system.
