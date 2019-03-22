@@ -1,6 +1,6 @@
 Portugues
 
-##Introdução
+## Introdução
 
 Projeto para estudo e aprofundamento na linguagem de progração JavaScript. Este consiste em um sistema de casastro de negociações da bolsa de valores. 
 
@@ -11,7 +11,7 @@ Projeto desenvolvido em JavaScript, ou ECMAScript 2015 (ES6). Utilizado o modelo
 
 English
 
-##Introduction
+## Introduction
 
 Study project by deep learning on JavaScript programming. This project consist on stock sxchange trading register system.
 
