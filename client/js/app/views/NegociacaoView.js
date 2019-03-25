@@ -4,7 +4,7 @@ class NegociacaoView extends View {
         super(element);
     }
 
-    _template(list) {
+    template(list) {
             return `
             <table class="table table-hover table-bordered">
                 <thead>
