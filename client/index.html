@@ -13,7 +13,9 @@
 
     <h1 class="text-center">Negociações</h1>
 
-    <div id="mensagemView"></div>
+    <div id="mensagemView">
+        <p></p>
+    </div>
 
     <form class="form" onsubmit="negociacaoController.adiciona(event)">
 
@@ -36,7 +38,7 @@
     </form>
 
     <div class="text-center">
-        <button class="btn btn-primary text-center" type="button">
+        <button onclick="negociacaoController.importaLista()" class="btn btn-primary text-center" type="button">
             Importar Negociações
         </button>
         <button onclick="negociacaoController.limpaLista()" class="btn btn-primary text-center" type="button">
@@ -55,6 +57,9 @@
     <script src="js/app/views/View.js"></script>
     <script src="js/app/views/NegociacaoView.js"></script>
     <script src="js/app/views/MensagemView.js"></script>
+    <script src="js/app/services/ProxyFactory.js"></script>
+    <script src="js/app/helpers/Bind.js"></script>
+    <script src="js/app/services/NegociacaoService.js"></script>
     <script>
         let negociacaoController = new NegociacaoController();
     </script>
