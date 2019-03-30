@@ -22,17 +22,21 @@ class NegociacaoController {
     }
 
     importaLista() {
-
         let service = new NegociacaoService();
-        service.obterNegociacoesSemana((error, negociacoes) => {
-            if (error) {
-                this._mensagem.texto = error;
-                return;
-            }
 
-            negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
-            this._mensagem.texto = "Negociações da semana importadas com sucesso!";
-        });
+        Promise.all([
+                service.obterNegociacoesSemana(),
+                service.obterNegociacoesSemanaAnterior(),
+                service.obterNegociacoesSemanaRetrasada()
+            ])
+            .then(negociacoes => {
+                negociacoes
+                    .reduce((listaNova, lista) => listaNova.concat(lista), [])
+                    .forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
+
+                this._mensagem.texto = "Negociações da semana importadas com sucesso!";
+            })
+            .catch(error => this._mensagem.texto = error);
     }
 
     adiciona(event) {
