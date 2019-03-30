@@ -4,46 +4,57 @@ class NegociacaoService {
         this._http = new HttpService();
     }
 
+    obterNegociacoes() {
+
+        return Promise.all([
+                this.obterNegociacoesSemana(),
+                this.obterNegociacoesSemanaAnterior(),
+                this.obterNegociacoesSemanaRetrasada()
+            ])
+            .then(periodos => {
+
+                return periodos.reduce((listaNova, lista) => listaNova.concat(lista), []);
+            })
+            .catch(error => {
+
+                throw new Error(error);
+            });
+    }
+
     obterNegociacoesSemana() {
 
-        return new Promise((resolve, reject) => {
-            this._http
-                .get('negociacoes/semana')
-                .then(listaNegociacoes => {
-                    resolve(listaNegociacoes.map(object => new Negociacao(new Date(object.data), object.quantidade, object.valor)));
-                })
-                .catch(error => {
-                    console.log(error);
-                    reject('Houve algum erro ao tentar listar as negociações!');
-                })
-        })
+        return this._http
+            .get('negociacoes/semana')
+            .then(listaNegociacoes => {
+                return listaNegociacoes.map(object => new Negociacao(new Date(object.data), object.quantidade, object.valor));
+            })
+            .catch(error => {
+                console.log(error);
+                throw new Error('Houve algum erro ao tentar listar as negociações!');
+            })
     }
     obterNegociacoesSemanaAnterior() {
 
-        return new Promise((resolve, reject) => {
-            this._http
-                .get('negociacoes/anterior')
-                .then(listaNegociacoes => {
-                    resolve(listaNegociacoes.map(object => new Negociacao(new Date(object.data), object.quantidade, object.valor)));
-                })
-                .catch(error => {
-                    console.log(error);
-                    reject('Houve algum erro ao tentar listar as negociações da semana anterior!');
-                })
-        })
+        return this._http
+            .get('negociacoes/anterior')
+            .then(listaNegociacoes => {
+                return listaNegociacoes.map(object => new Negociacao(new Date(object.data), object.quantidade, object.valor));
+            })
+            .catch(error => {
+                console.log(error);
+                throw new Error('Houve algum erro ao tentar listar as negociações da semana anterior!');
+            })
     }
     obterNegociacoesSemanaRetrasada() {
 
-        return new Promise((resolve, reject) => {
-            this._http
-                .get('negociacoes/retrasada')
-                .then(listaNegociacoes => {
-                    resolve(listaNegociacoes.map(object => new Negociacao(new Date(object.data), object.quantidade, object.valor)));
-                })
-                .catch(error => {
-                    console.log(error);
-                    reject('Houve algum erro ao tentar listar as negociações da semana retrasada!');
-                })
-        })
+        return this._http
+            .get('negociacoes/retrasada')
+            .then(listaNegociacoes => {
+                return listaNegociacoes.map(object => new Negociacao(new Date(object.data), object.quantidade, object.valor));
+            })
+            .catch(error => {
+                console.log(error);
+                throw new Error('Houve algum erro ao tentar listar as negociações da semana retrasada!');
+            })
     }
 }
