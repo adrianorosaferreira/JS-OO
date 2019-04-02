@@ -21,7 +21,8 @@
 
         <div class="form-group">
             <label for="data">Data</label>
-            <input type="date" id="data" class="form-control" style="width: 230px" required autofocus/>
+            <!-- <input type="date" id="data" class="form-control" style="width: 230px" required autofocus/> -->
+            <input type="text" id="data" placeholder="dd/mm/aaaa" class="form-control" style="width: 230px" required autofocus/>
         </div>
 
         <div class="form-group">
@@ -35,6 +36,7 @@
         </div>
 
         <button class="btn btn-primary" type="submit">Incluir</button>
+        <button class="btn btn-primary" type="submit" onclick="negociacaoController.sendPost(event)">Enviar Negociação</button>
     </form>
 
     <div class="text-center">
@@ -62,7 +64,7 @@
     <script src="js/app/services/NegociacaoService.js"></script>
     <script src="js/app/services/HttpService.js"></script>
     <script>
-        let negociacaoController = new NegociacaoController();
+        var negociacaoController = new NegociacaoController();
     </script>
 
 </body>
