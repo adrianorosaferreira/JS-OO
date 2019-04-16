@@ -4,22 +4,7 @@ class NegociacaoService {
         this._http = new HttpService();
     }
 
-    obterNegociacoes() {
 
-        return Promise.all([
-                this.obterNegociacoesSemana(),
-                this.obterNegociacoesSemanaAnterior(),
-                this.obterNegociacoesSemanaRetrasada()
-            ])
-            .then(periodos => {
-
-                return periodos.reduce((listaNova, lista) => listaNova.concat(lista), []);
-            })
-            .catch(error => {
-
-                throw new Error(error);
-            });
-    }
 
     obterNegociacoesSemana() {
 
@@ -56,5 +41,25 @@ class NegociacaoService {
                 console.log(error);
                 throw new Error('Houve algum erro ao tentar listar as negociações da semana retrasada!');
             })
+    }
+    obterNegociacoes() {
+
+        return Promise.all([
+                this.obterNegociacoesSemana(),
+                this.obterNegociacoesSemanaAnterior(),
+                this.obterNegociacoesSemanaRetrasada()
+            ])
+            .then(periodos => {
+
+                let negociacoes = periodos
+                    .reduce((dados, periodo) => dados.concat(periodo), [])
+                    .map(dado => new Negociacao(new Date(dado.data), dado.quantidade, dado.valor));
+
+                return negociacoes;
+            })
+            .catch(error => {
+
+                throw new Error(error);
+            });
     }
 }

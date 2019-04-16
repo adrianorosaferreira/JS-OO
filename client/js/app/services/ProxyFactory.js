@@ -6,8 +6,9 @@ class ProxyFactory {
                 if (props.includes(prop) && ProxyFactory._isFunction(target[prop])) {
 
                     return function() {
+                        let retorno = Reflect.apply(target[prop], target, arguments);
                         acao(target);
-                        return Reflect.apply(target[prop], target, arguments);
+                        return retorno;
                     }
                 }
 
