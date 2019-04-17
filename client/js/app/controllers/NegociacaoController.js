@@ -18,6 +18,19 @@ class NegociacaoController {
             new MensagemView($('#mensagemView')),
             'texto'
         )
+
+        ConnectionFactory
+            .getConnection()
+            .then(connection => new NegociacaoDAO(connection))
+            .then(dao => dao.listaTodos())
+            .then(listaNegociacoes => {
+                listaNegociacoes.forEach(negociacao =>
+                    this._listaNegociacoes.adiciona(negociacao));
+            })
+            .catch(error => {
+                this._mensagem.texto = error;
+            })
+
     }
 
     ordena(coluna) {
@@ -30,6 +43,7 @@ class NegociacaoController {
     }
 
     importaLista() {
+
         let service = new NegociacaoService();
 
         service
@@ -62,9 +76,15 @@ class NegociacaoController {
     }
 
     limpaLista() {
-
-        this._listaNegociacoes.apagar();
-        this._mensagem.texto = 'Lista de negociações apagada com sucesso!';
+        ConnectionFactory
+            .getConnection()
+            .then(connection => new NegociacaoDAO(connection))
+            .then(dao => dao.apagaTodos())
+            .then(mensagem => {
+                this._mensagem.texto = mensagem;
+                this._listaNegociacoes.apagar();
+            })
+            .catch(error => this._mensagem.texto = error);
     }
 
     _criaNegociacao() {
