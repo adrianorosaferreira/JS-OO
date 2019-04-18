@@ -62,4 +62,54 @@ class NegociacaoService {
                 throw new Error(error);
             });
     }
+
+    cadastra(negociacao) {
+        return ConnectionFactory
+            .getConnection()
+            .then(connection => new NegociacaoDAO(connection))
+            .then(dao => dao.adiciona(negociacao))
+            .then(() => 'Negociação adicionada com sucesso!')
+            .catch(error => {
+                console.log(error);
+                throw new Error('Não foi possivel cadastrar a negociação')
+            });
+    }
+
+    lista() {
+        return ConnectionFactory
+            .getConnection()
+            .then(connection => new NegociacaoDAO(connection))
+            .then(dao => dao.listaTodos())
+            .catch(error => {
+                console.log(error);
+                throw new Error('Não foi possivel listar as negociações')
+            });
+    }
+
+    apaga() {
+        return ConnectionFactory
+            .getConnection()
+            .then(connection => new NegociacaoDAO(connection))
+            .then(dao => dao.apagaTodos())
+            .then(() => 'Negociações pagadas com sucesso')
+            .catch(error => {
+                console.log(error);
+                throw new Error('Não foi possivel listar as negociações')
+            });
+    }
+
+    importa(listaNegociacoes) {
+        return this.obterNegociacoes()
+            .then(negociacoes =>
+                negociacoes.filter(negociacao =>
+                    !listaNegociacoes.some(negociacaoExistente =>
+                        JSON.stringify(negociacaoExistente) == JSON.stringify(negociacao)
+                    )
+                )
+            )
+            .catch(error => {
+                console.log(error);
+                throw new Error('Não foi possivel importar a lista de negociações');
+            });
+    }
 }
