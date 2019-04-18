@@ -103,7 +103,7 @@ class NegociacaoService {
             .then(negociacoes =>
                 negociacoes.filter(negociacao =>
                     !listaNegociacoes.some(negociacaoExistente =>
-                        JSON.stringify(negociacaoExistente) == JSON.stringify(negociacao)
+                        negociacao.isEquals(negociacaoExistente)
                     )
                 )
             )
