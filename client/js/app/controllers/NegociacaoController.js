@@ -31,6 +31,9 @@ class NegociacaoController {
                 this._mensagem.texto = error;
             })
 
+        setInterval(() => {
+            this.importaLista();
+        }, 3000);
     }
 
     ordena(coluna) {
@@ -48,6 +51,13 @@ class NegociacaoController {
 
         service
             .obterNegociacoes()
+            .then(negociacoes =>
+                negociacoes.filter(negociacao =>
+                    !this._listaNegociacoes.negociacoes.some(negociacaoExistente =>
+                        JSON.stringify(negociacaoExistente) == JSON.stringify(negociacao)
+                    )
+                )
+            )
             .then(negociacoes => {
                 negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
                 this._mensagem.texto = "Negociações da semana importadas com sucesso!";
