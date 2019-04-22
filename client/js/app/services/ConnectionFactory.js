@@ -1,59 +1,73 @@
-let ConnectionFactory = (function() {
+'use strict';
 
-    const _DB_NAME = 'aluraframe';
-    const _VERSION = 5;
-    const _STORES = ['negociacoes'];
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ConnectionFactory = function () {
+
+    var _DB_NAME = 'aluraframe';
+    var _VERSION = 5;
+    var _STORES = ['negociacoes'];
 
     var connection = null;
     var close = null;
 
-    return class ConnectionFactory {
-
-        constructor() {
+    return function () {
+        function ConnectionFactory() {
+            _classCallCheck(this, ConnectionFactory);
 
             throw new Error('ConnectionFactory não pode ser instanciada');
         }
 
-        static getConnection() {
-            return new Promise((resolve, reject) => {
+        _createClass(ConnectionFactory, null, [{
+            key: 'getConnection',
+            value: function getConnection() {
+                return new Promise(function (resolve, reject) {
 
-                let openRequest = window.indexedDB.open(_DB_NAME, _VERSION);
+                    var openRequest = window.indexedDB.open(_DB_NAME, _VERSION);
 
-                openRequest.onupgradeneeded = e => {
-                    ConnectionFactory._getConnetion(e.target.result);
-                };
-
-                openRequest.onsuccess = e => {
-                    if (!connection) {
-                        connection = e.target.result;
-                        close = connection.close.bind(connection);
-                        connection.close = function() {
-                            throw new Error('Você não pode fechar diretamente a conexão');
-                        };
+                    openRequest.onupgradeneeded = function (e) {
+                        ConnectionFactory._getConnetion(e.target.result);
                     };
-                    resolve(connection);
-                };
 
-                openRequest.onerror = e => {
-                    console.log(e.target.error);
-                    reject(e.target.error.name);
-                };
-            });
-        }
+                    openRequest.onsuccess = function (e) {
+                        if (!connection) {
+                            connection = e.target.result;
+                            close = connection.close.bind(connection);
+                            connection.close = function () {
+                                throw new Error('Você não pode fechar diretamente a conexão');
+                            };
+                        };
+                        resolve(connection);
+                    };
 
-        static _getConnetion(connection) {
-
-            _STORES.forEach(store => {
-                if (connection.objectStoreNames.contains(store)) connection.deleteObjectStore(store);
-                connection.createObjectStore(store, { autoIncrement: true });
-            })
-        }
-
-        static closeConnection() {
-            if (connection) {
-                close();
-                connection = null;
+                    openRequest.onerror = function (e) {
+                        console.log(e.target.error);
+                        reject(e.target.error.name);
+                    };
+                });
             }
-        }
-    }
-})();
+        }, {
+            key: '_getConnetion',
+            value: function _getConnetion(connection) {
+
+                _STORES.forEach(function (store) {
+                    if (connection.objectStoreNames.contains(store)) connection.deleteObjectStore(store);
+                    connection.createObjectStore(store, { autoIncrement: true });
+                });
+            }
+        }, {
+            key: 'closeConnection',
+            value: function closeConnection() {
+                if (connection) {
+                    close();
+                    connection = null;
+                }
+            }
+        }]);
+
+        return ConnectionFactory;
+    }();
+}();
+//# sourceMappingURL=ConnectionFactory.js.map
