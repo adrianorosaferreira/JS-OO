@@ -1,10 +1,13 @@
-class NegociacaoService {
+import { HttpService } from './HttpService';
+import { ConnectionFactory } from './ConnectionFactory';
+import { NegociacaoDAO } from '../dao/NegociacaoDAO';
+import { Negociacao } from '../models/Negociacao';
+
+export class NegociacaoService {
 
     constructor() {
         this._http = new HttpService();
     }
-
-
 
     obterNegociacoesSemana() {
 
@@ -18,6 +21,7 @@ class NegociacaoService {
                 throw new Error('Houve algum erro ao tentar listar as negociações!');
             })
     }
+
     obterNegociacoesSemanaAnterior() {
 
         return this._http
@@ -30,6 +34,7 @@ class NegociacaoService {
                 throw new Error('Houve algum erro ao tentar listar as negociações da semana anterior!');
             })
     }
+
     obterNegociacoesSemanaRetrasada() {
 
         return this._http

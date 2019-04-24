@@ -1,59 +1,56 @@
-let ConnectionFactory = (function() {
+const _DB_NAME = 'aluraframe';
+const _VERSION = 5;
+const _STORES = ['negociacoes'];
 
-    const _DB_NAME = 'aluraframe';
-    const _VERSION = 5;
-    const _STORES = ['negociacoes'];
+let connection = null;
+let close = null;
 
-    var connection = null;
-    var close = null;
+export class ConnectionFactory {
 
-    return class ConnectionFactory {
+    constructor() {
 
-        constructor() {
+        throw new Error('ConnectionFactory não pode ser instanciada');
+    }
 
-            throw new Error('ConnectionFactory não pode ser instanciada');
-        }
+    static getConnection() {
+        return new Promise((resolve, reject) => {
 
-        static getConnection() {
-            return new Promise((resolve, reject) => {
+            let openRequest = window.indexedDB.open(_DB_NAME, _VERSION);
 
-                let openRequest = window.indexedDB.open(_DB_NAME, _VERSION);
+            openRequest.onupgradeneeded = e => {
+                ConnectionFactory._getConnetion(e.target.result);
+            };
 
-                openRequest.onupgradeneeded = e => {
-                    ConnectionFactory._getConnetion(e.target.result);
-                };
-
-                openRequest.onsuccess = e => {
-                    if (!connection) {
-                        connection = e.target.result;
-                        close = connection.close.bind(connection);
-                        connection.close = function() {
-                            throw new Error('Você não pode fechar diretamente a conexão');
-                        };
+            openRequest.onsuccess = e => {
+                if (!connection) {
+                    connection = e.target.result;
+                    close = connection.close.bind(connection);
+                    connection.close = function() {
+                        throw new Error('Você não pode fechar diretamente a conexão');
                     };
-                    resolve(connection);
                 };
+                resolve(connection);
+            };
 
-                openRequest.onerror = e => {
-                    console.log(e.target.error);
-                    reject(e.target.error.name);
-                };
-            });
-        }
+            openRequest.onerror = e => {
+                console.log(e.target.error);
+                reject(e.target.error.name);
+            };
+        });
+    }
 
-        static _getConnetion(connection) {
+    static _getConnetion(connection) {
 
-            _STORES.forEach(store => {
-                if (connection.objectStoreNames.contains(store)) connection.deleteObjectStore(store);
-                connection.createObjectStore(store, { autoIncrement: true });
-            })
-        }
+        _STORES.forEach(store => {
+            if (connection.objectStoreNames.contains(store)) connection.deleteObjectStore(store);
+            connection.createObjectStore(store, { autoIncrement: true });
+        })
+    }
 
-        static closeConnection() {
-            if (connection) {
-                close();
-                connection = null;
-            }
+    static closeConnection() {
+        if (connection) {
+            close();
+            connection = null;
         }
     }
-})();
+}
