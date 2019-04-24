@@ -6,8 +6,6 @@
     <title>Negociações</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-theme.css">
-    <script src="js/app/polyfill/es6.js"></script>
-
 </head>
 
 <body class="container">
@@ -18,7 +16,7 @@
         <p></p>
     </div>
 
-    <form class="form" onsubmit="negociacaoController.adiciona(event)">
+    <form class="form">
 
         <div class="form-group">
             <label for="data">Data</label>
@@ -41,33 +39,22 @@
     </form>
 
     <div class="text-center">
-        <button onclick="negociacaoController.limpaLista()" class="btn btn-primary text-center" type="button">
+        <button class="btn btn-primary text-center" type="button">
             Apagar
         </button>
     </div>
     <br>
     <br>
     <div id="grid-negociacoes"></div>
-    <script>
+    <!-- <script>
         var exports = {};
-    </script>
-    <script src="js/app/polyfill/fetch.js"></script>
-    <script src="js/app/helpers/DateHelper.js "></script>
-    <script src="js/app/controllers/NegociacaoController.js "></script>
-    <script src="js/app/models/Negociacao.js "></script>
-    <script src="js/app/models/ListaNegociacoes.js "></script>
-    <script src="js/app/models/Mensagem.js "></script>
-    <script src="js/app/views/View.js "></script>
-    <script src="js/app/views/NegociacaoView.js "></script>
-    <script src="js/app/views/MensagemView.js "></script>
-    <script src="js/app/services/ProxyFactory.js "></script>
-    <script src="js/app/helpers/Bind.js "></script>
-    <script src="js/app/services/NegociacaoService.js "></script>
-    <script src="js/app/services/HttpService.js "></script>
-    <script src="js/app/services/ConnectionFactory.js "></script>
-    <script src="js/app/dao/NegociacaoDAO.js "></script>
+    </script> -->
+    <script src="node_modules/systemjs/dist/system.js"></script>
     <script>
-        var negociacaoController = new NegociacaoController();
+        System.defaultJSExtensions = true;
+        System.import('js/app/boot').catch(function(err) {
+            console.log(err);
+        });
     </script>
 
 </body>

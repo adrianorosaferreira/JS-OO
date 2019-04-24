@@ -5,11 +5,10 @@ import { MensagemView } from '../views/MensagemView';
 import { NegociacaoService } from '../services/NegociacaoService';
 import { DateHelper } from '../helpers/DateHelper';
 import { Bind } from '../helpers/Bind';
-
 import { Negociacao } from '../models/Negociacao';
 import { HttpService } from '../services/HttpService';
 
-class NegociacaoController {
+export class NegociacaoController {
 
     constructor() {
         let $ = document.querySelector.bind(document);
