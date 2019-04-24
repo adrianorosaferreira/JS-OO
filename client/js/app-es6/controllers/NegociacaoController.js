@@ -8,7 +8,7 @@ import { Bind } from '../helpers/Bind';
 import { Negociacao } from '../models/Negociacao';
 import { HttpService } from '../services/HttpService';
 
-export class NegociacaoController {
+class NegociacaoController {
 
     constructor() {
         let $ = document.querySelector.bind(document);
@@ -141,4 +141,11 @@ export class NegociacaoController {
             })
             .catch(erro => alert(`Não foi possível enviar a negociação: ${erro}`));
     }
+}
+
+let negociacaoController = new NegociacaoController();
+
+export function currentInstance() {
+
+    return negociacaoController;
 }
